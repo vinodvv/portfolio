@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section>
+        <h2>Contact Me</h2>
+        <form method="post" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required placeholder="you@email.com">
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required placeholder="Type your message..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+        <div class="contact-alt">
+            <p>Or reach me directly at: <a href="mailto:vinovijayan@gmail.com">vinovijayan@gmail.com</a></p>
+            <p>LinkedIn: <a href="https://linkedin.com/in/vinod-vv" target="_blank">vinod-vv</a></p>
+        </div>
+    </section>
+{% endblock %}
+

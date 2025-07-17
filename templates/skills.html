@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section>
+        <h2>Skills</h2>
+        <h3>Technical Skills</h3>
+            <ul class="skills-list">
+                {% for skill in tech_skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        <h3>Soft Skills</h3>
+            <ul class="skills-list">
+                {% for skill in soft_skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+    </section>
+{% endblock %}
+
