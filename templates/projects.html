@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-    <section>
+    <section class="section-padding">
         <h2>My Projects</h2>
         {% if projects %}
-            <div class="project-grid">
+            <div class="projects-grid">
                 {% for proj in projects %}
                     <div class="project-card">
                         <h3>{{ proj.title }}</h3>
