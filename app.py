@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import sqlite3
 
 
@@ -12,6 +12,70 @@ def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+# Dummy credentials (you can store securely in a real app)
+ADMIN_USERNAME = "admin"
+ADMIN_PASSWORD = "password123"
+
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['admin'] = True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash("Invalid credentials", "error")
+    return render_template('admin_login.html')
+
+
+@app.route('/admin/dashboard', methods=['GET', 'POST'])
+def admin_dashboard():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        repo_link = request.form.get('repo_link')
+
+        if title and description and repo_link:
+            conn = get_db_connection()
+            conn.execute("INSERT INTO projects (title, description, repo_link) VALUES (?, ?, ?)",
+                         (title, description, repo_link))
+            conn.commit()
+            conn.close()
+            flash("Project add successfully!", "success")
+        else:
+            flash("All fields are required.", "error")
+
+    conn = get_db_connection()
+    projects = conn.execute("SELECT * FROM projects").fetchall()
+    conn.close()
+    return render_template('admin_dashboard.html',  projects=projects)
+
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin', None)
+    flash("Logged out successfully", "info")
+    return redirect(url_for('home'))
+
+
+@app.route('/admin/delete/<int:project_id>')
+def delete_project(project_id):
+    if not session.get('admin'):
+        return redirect(url_for('admin', 'login'))
+
+    conn = get_db_connection()
+    conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
+    conn.commit()
+    conn.close()
+    flash("Project deleted.", "info")
+    return redirect(url_for('admin_dashboard'))
 
 
 # Create projects table automatically if needed

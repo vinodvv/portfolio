@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+    <h2>Admin Dashboard</h2>
+
+    <form method="POST">
+        <h3>Add New Project</h3>
+        <label>Title:<input type="text" name="title" required></label><br>
+        <label>Description:<textarea name="description" required></textarea></label><br>
+        <label>Repository Link:<input type="url" name="repo_link" required></label><br>
+        <button type="submit">Add Project</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <hr>
+
+    <h3>Existing Projects</h3>
+    <ul>
+    {% for proj in projects %}
+        <li>
+            <strong>{{ proj.title }}</strong> - {{ proj.description }}
+            (<a href="{{ proj.repo_link }}" target="_blank">Repo</a>)
+            | <a href="{{ url_for('delete_project', project_id=proj.id) }}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('admin_logout') }}">Logout</a>
+</section>
+{% endblock %}

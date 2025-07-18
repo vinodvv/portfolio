@@ -245,3 +245,33 @@ footer {
     text-decoration: none;
     font-weight: bold;
 }
+
+ul li {
+    margin-bottom: 1.5em;
+}
+
+ol li {
+    margin-bottom: 0.5em;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.6em;
+    margin-bottom: 1em;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    padding: 0.6em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #005fa3;
+}
+
